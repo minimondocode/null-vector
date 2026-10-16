@@ -9,7 +9,7 @@ import {
 // ---- tuning knobs ----
 const SEGMENTS = 12;
 const SEG_HP = 40;
-const CORE_HP = 640;
+const CORE_HP = 500;
 /** Core opens when this many segments are destroyed (phase 1). */
 const OPEN_AFTER = 3;
 const BASE_R = 7;

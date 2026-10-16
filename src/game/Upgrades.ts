@@ -200,5 +200,12 @@ export function rollUpgrades(owned: Map<string, number>, n = 3): UpgradeDef[] {
     }
     out.push(pool.splice(Math.min(i, pool.length - 1), 1)[0]);
   }
+  // every offer carries at least one raw-DPS option so a run can't starve on damage
+  if (out.length === n && !out.some((u) => CORE_DPS.includes(u.id))) {
+    const dps = pool.filter((u) => CORE_DPS.includes(u.id));
+    if (dps.length) out[n - 1] = dps[Math.floor(Math.random() * dps.length)];
+  }
   return out;
 }
+
+const CORE_DPS = ['rate', 'dmg', 'multi', 'pierce', 'crit', 'overflow'];

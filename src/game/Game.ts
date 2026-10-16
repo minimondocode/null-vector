@@ -39,6 +39,15 @@ function distToSegmentSq(p: THREE.Vector3, a: THREE.Vector3, b: THREE.Vector3) {
   return x * x + z * z;
 }
 
+function sweptDistSq(cx: number, cz: number, ax: number, az: number, bx: number, bz: number) {
+  const abx = bx - ax, abz = bz - az;
+  const l2 = abx * abx + abz * abz;
+  let t = l2 > 0 ? ((cx - ax) * abx + (cz - az) * abz) / l2 : 0;
+  t = Math.max(0, Math.min(1, t));
+  const x = ax + abx * t - cx, z = az + abz * t - cz;
+  return x * x + z * z;
+}
+
 export class Game implements GameContext {
   scene = new THREE.Scene();
   camera = new THREE.PerspectiveCamera(50, innerWidth / innerHeight, 0.1, 400);
@@ -128,6 +137,7 @@ export class Game implements GameContext {
       this.hitStop(0.3);
     });
     this.bus.on('playerShoot', () => this.runStats.shotsFired++);
+    this.bus.on('sectorStart', (e) => (this.runStats.sectorReached = Math.max(this.runStats.sectorReached, e.sector + 1)));
 
     this.ui = new UI(this);
 
@@ -454,8 +464,8 @@ export class Game implements GameContext {
       for (const e of this.enemies) {
         if (!e.alive || !e.collidable) continue;
         const r = e.radius + b.radius;
-        const dx = e.pos.x - b.x, dz = e.pos.z - b.z;
-        if (dx * dx + dz * dz > r * r) continue;
+        // swept test (segment from last position) so fast bullets can't tunnel through small enemies
+        if (sweptDistSq(e.pos.x, e.pos.z, b.px, b.pz, b.x, b.z) > r * r) continue;
         if (b.hit.includes(e)) continue;
         _v.set(b.x, 0, b.z);
         const landed = e.damage(this, b.damage, _v, 'bullet');
@@ -475,7 +485,7 @@ export class Game implements GameContext {
     for (const b of this.enemyBullets.items) {
       if (!b.active) continue;
       const r = pr + b.radius * 0.85;
-      if ((b.x - p.pos.x) ** 2 + (b.z - p.pos.z) ** 2 < r * r) {
+      if (sweptDistSq(p.pos.x, p.pos.z, b.px, b.pz, b.x, b.z) < r * r) {
         if (p.hurt(this, _v.set(b.x, 0, b.z))) b.active = false;
       }
     }

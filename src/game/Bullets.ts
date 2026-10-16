@@ -7,6 +7,9 @@ export interface Bullet {
   active: boolean;
   x: number;
   z: number;
+  /** Position at the start of the last step (for swept collision). */
+  px: number;
+  pz: number;
   vx: number;
   vz: number;
   /** Seconds remaining. */
@@ -74,7 +77,7 @@ export class BulletPool {
   ) {
     for (let i = 0; i < max; i++) {
       this.items.push({
-        active: false, x: 0, z: 0, vx: 0, vz: 0, life: 0, radius: 0.2, damage: 1, pierce: 0, ricochet: 0,
+        active: false, x: 0, z: 0, px: 0, pz: 0, vx: 0, vz: 0, life: 0, radius: 0.2, damage: 1, pierce: 0, ricochet: 0,
         crit: false, homing: 0, accel: 0, curve: 0, color: new THREE.Color(defaultColor), hit: [], tag: 0,
       });
     }
@@ -109,8 +112,8 @@ export class BulletPool {
     for (const b of this.items) {
       if (b.active) continue;
       b.active = true;
-      b.x = o.x;
-      b.z = o.z;
+      b.x = b.px = o.x;
+      b.z = b.pz = o.z;
       b.vx = o.vx;
       b.vz = o.vz;
       b.life = o.life ?? 3;
@@ -183,6 +186,8 @@ export class BulletPool {
           b.vz *= sp / ns;
         }
       }
+      b.px = b.x;
+      b.pz = b.z;
       b.x += b.vx * dt;
       b.z += b.vz * dt;
       _tmp.set(b.x, 0, b.z);

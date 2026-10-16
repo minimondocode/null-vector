@@ -7,7 +7,7 @@ import {
 import { Serpent } from './Serpent';
 
 // ---- tuning knobs ----
-const CORE_HP = 3200;
+const CORE_HP = 2900;
 const NODE_HP = 45;
 const NODES = 6;
 /** Core damage multiplier while any shield node survives (phase 1). */
