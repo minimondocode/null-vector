@@ -9,7 +9,7 @@ import { Serpent, type SerpentOpts } from './Serpent';
 // ---- tuning knobs ----
 const SEGMENTS = 10;
 const SEG_HP = 42;
-const HEAD_HP = 1150;
+const HEAD_HP = 1500;
 /** Phase 2 starts (head unarmored) when attached segments <= this. */
 const P2_SEGMENTS = 5;
 /** Phase 3 at this fraction of head hp. */

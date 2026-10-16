@@ -221,8 +221,8 @@ export class Player {
       const crit = Math.random() < s.critChance;
       const sp = s.projectileSpeed * (main ? 1 : 0.85);
       ctx.playerBullets.spawn({
-        x: this.pos.x + Math.sin(a) * 0.8,
-        z: this.pos.z + Math.cos(a) * 0.8,
+        x: this.pos.x + Math.sin(a) * 0.35,
+        z: this.pos.z + Math.cos(a) * 0.35,
         vx: Math.sin(a) * sp,
         vz: Math.cos(a) * sp,
         life: 1.1,

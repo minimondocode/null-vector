@@ -61,7 +61,7 @@ void main() {
   vec2 toCam = normalize(cameraPosition.xz - vWorld.xz + vec2(1e-4));
   float front = smoothstep(0.1, 0.7, dot(nrm, toCam));
   float b = grad * (0.35 + uBeat * 0.25 + uFlash) + energy * 0.9 + (stripes + scan) * grad + top + prox * grad + hits;
-  b *= mix(1.0, 0.35, front);
+  b *= mix(0.55, 0.2, front);
   vec3 col = mix(uColor, uColor2, h * 0.7) * b;
   col += vec3(1.0) * hits * 0.4 * grad;
   gl_FragColor = vec4(col, 1.0);
@@ -143,7 +143,7 @@ export class Walls {
     u.uColor.value.setHex(primary);
     u.uColor2.value.setHex(secondary);
     this.colorA.setHex(primary);
-    this.ribbonMat.color.copy(this.colorA).multiplyScalar(3.2);
+    this.ribbonMat.color.copy(this.colorA).multiplyScalar(2.4);
     this.railMat.color.copy(this.colorA).multiplyScalar(1.6);
     this.pillarEdgeMat.color.setHex(secondary).multiplyScalar(2.6);
     this.gemMat.color.copy(this.colorA).multiplyScalar(3);

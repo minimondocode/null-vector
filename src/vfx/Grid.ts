@@ -47,9 +47,9 @@ void main() {
   float sx = (r - sweepR) * 0.9;
   float sw = exp(-sx * sx) * 0.35;
   float pl = exp(-dot(vWorld - uPlayer.xy, vWorld - uPlayer.xy) * 0.035) * uPlayer.z;
-  float wall = exp(-edge * 0.9) * 0.45;
+  float wall = exp(-edge * 0.9) * 0.3;
   float disp = clamp(vDisp, 0.0, 3.0);
-  float b = vBase * (0.28 + uBeat * 0.22 + uBoost) + sw * vBase + pl * 0.35 + wall * vBase;
+  float b = vBase * (0.2 + uBeat * 0.16 + uBoost) + sw * vBase + pl * 0.35 + wall * vBase;
   vec3 col = uColor * b;
   // displaced lines heat up: shift toward secondary then white, crossing the bloom threshold
   col += mix(uColor2, vec3(1.0), clamp(disp * 0.5, 0.0, 1.0)) * disp * 1.3;
