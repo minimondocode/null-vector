@@ -20,6 +20,7 @@ export class VFX {
   private composer: EffectComposer;
   private bloom: UnrealBloomPass;
   private floor?: THREE.Object3D;
+  private currentTheme?: SectorTheme;
 
   constructor(
     private renderer: THREE.WebGLRenderer,
@@ -37,6 +38,7 @@ export class VFX {
   }
 
   setTheme(theme: SectorTheme, arena: Arena) {
+    this.currentTheme = theme;
     if (this.floor) this.scene.remove(this.floor);
     const g = new THREE.Group();
     const grid = new THREE.GridHelper(arena.size * 2, arena.size, new THREE.Color(theme.primary).multiplyScalar(0.6), new THREE.Color(theme.primary).multiplyScalar(0.25));
@@ -48,6 +50,11 @@ export class VFX {
     this.floor = g;
     this.scene.add(g);
     this.scene.background = new THREE.Color(theme.background);
+  }
+
+  /** Arena size changed at runtime (ROOT shrinks it): redraw walls/floor clip without full theme rebuild. */
+  refreshArena(arena: Arena) {
+    this.setTheme(this.currentTheme!, arena);
   }
 
   burst(_pos: THREE.Vector3, _color: number, _count: number, _speed = 8, _life = 0.6, _size = 1) {}
