@@ -14,6 +14,12 @@ export type GameEvents = {
   enemyHit: { pos: THREE.Vector3; kind: string; color: number };
   enemyKilled: { pos: THREE.Vector3; kind: string; color: number; size: number; score: number };
   enemyShoot: { pos: THREE.Vector3; kind: string };
+  /** An enemy is about to attack (dart wind-up, sentinel charge, mine fuse...). For a subtle warning cue. */
+  enemyTelegraph: { pos: THREE.Vector3; kind: string };
+  /** A shot was blocked by an enemy shield (shielder front). */
+  shieldBlock: { pos: THREE.Vector3; color: number };
+  /** Player collected a pickup shard. */
+  pickup: { pos: THREE.Vector3; kind: 'health' | 'overdrive'; color: number };
   /** Generic explosion: drives particles, grid deformation, shake, sound. size ~ 1 small, 3 big, 6+ huge. */
   explosion: { pos: THREE.Vector3; color: number; size: number };
   comboChange: { multiplier: number; kills: number };
@@ -36,6 +42,8 @@ export type GameEvents = {
   intensity: { value: number };
   uiClick: {};
   uiHover: {};
+  /** Emitted by Audio on every audible music beat (realtime-synced). strong = first beat of a bar. */
+  beat: { index: number; bar: number; strong: boolean };
 };
 
 export type GameState = 'title' | 'playing' | 'upgrade' | 'paused' | 'gameover' | 'victory';

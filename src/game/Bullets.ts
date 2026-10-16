@@ -85,7 +85,8 @@ export class BulletPool {
     } else {
       geo = new THREE.IcosahedronGeometry(1, 1);
     }
-    const mat = new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: style === 'orb', opacity: style === 'orb' ? 0.9 : 1, depthWrite: false, toneMapped: false });
+    // >1 so bullets cross the bloom threshold (VFX: max-channel high pass at ~0.85)
+    const mat = new THREE.MeshBasicMaterial({ color: new THREE.Color(1, 1, 1).multiplyScalar(style === 'orb' ? 2.2 : 2.4), transparent: style === 'orb', opacity: style === 'orb' ? 0.9 : 1, depthWrite: false, toneMapped: false });
     this.mesh = new THREE.InstancedMesh(geo, mat, max);
     this.mesh.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
     this.mesh.setColorAt(0, new THREE.Color());
@@ -95,7 +96,7 @@ export class BulletPool {
     scene.add(this.mesh);
     if (style === 'orb') {
       // white-hot core so enemy shots read against any background
-      const coreMat = new THREE.MeshBasicMaterial({ color: 0xffffff, toneMapped: false, depthWrite: false });
+      const coreMat = new THREE.MeshBasicMaterial({ color: new THREE.Color(2.5, 2.5, 2.5), toneMapped: false, depthWrite: false });
       this.core = new THREE.InstancedMesh(new THREE.IcosahedronGeometry(0.55, 1), coreMat, max);
       this.core.frustumCulled = false;
       this.core.count = 0;

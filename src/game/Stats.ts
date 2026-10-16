@@ -37,6 +37,10 @@ export interface PlayerStats {
   deathBlast: number;
   /** Shield charges that absorb a hit and recharge. */
   shield: number;
+  /** Multiplier on pickup magnet radius (Pickups.ts). */
+  pickupMagnet: number;
+  /** Multiplier on pickup drop chance (Pickups.ts). */
+  dropRate: number;
 }
 
 export function baseStats(maxHp: number): PlayerStats {
@@ -63,5 +67,7 @@ export function baseStats(maxHp: number): PlayerStats {
     drones: 0,
     deathBlast: 0,
     shield: 0,
+    pickupMagnet: 1,
+    dropRate: 1,
   };
 }
