@@ -203,7 +203,7 @@ export class HUD {
 
   setVisible(v: boolean, dim: boolean) {
     this.el.classList.toggle('visible', v);
-    this.el.classList.toggle('dim', dim);
+    this.el.classList.toggle('dim', v && dim);
   }
 
   update(dt: number) {

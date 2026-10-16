@@ -56,8 +56,7 @@ export class Player {
     shape.lineTo(-0.7, -0.7);
     shape.closePath();
     const hullGeo = new THREE.ExtrudeGeometry(shape, { depth: 0.22, bevelEnabled: true, bevelSize: 0.04, bevelThickness: 0.04, bevelSegments: 1 });
-    hullGeo.rotateX(-Math.PI / 2);
-    hullGeo.rotateY(Math.PI); // nose toward -Z
+    hullGeo.rotateX(-Math.PI / 2); // shape +Y (nose) -> world -Z
     hullGeo.translate(0, -0.11, 0);
     const hull = new THREE.Mesh(hullGeo, new THREE.MeshBasicMaterial({ color: new THREE.Color(0x02161a) }));
     const edges = new THREE.LineSegments(new THREE.EdgesGeometry(hullGeo, 20), new THREE.LineBasicMaterial({ color: glow(PLAYER_COLOR, 3), toneMapped: false }));

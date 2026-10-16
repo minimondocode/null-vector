@@ -20,7 +20,7 @@ export class DashGhosts {
     this.color.setHex(color);
     const pts = [new THREE.Vector3(0, 1, 0), new THREE.Vector3(0.7, -0.7, 0), new THREE.Vector3(0, -0.35, 0), new THREE.Vector3(-0.7, -0.7, 0)];
     // same transform chain as Player's hull so rotation conventions match
-    this.geo = new THREE.BufferGeometry().setFromPoints(pts).rotateX(-Math.PI / 2).rotateY(Math.PI);
+    this.geo = new THREE.BufferGeometry().setFromPoints(pts).rotateX(-Math.PI / 2);
   }
 
   setCount(n: number) {
