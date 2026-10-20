@@ -2,6 +2,8 @@
 
 Neon twin-stick shooter for the browser. three.js + Vite + TypeScript, 100% procedural: geometry, shaders and audio are all code.
 
+https://minimondocode.github.io/null-vector/
+
 ```bash
 npm install
 npm run dev      # http://localhost:5173
